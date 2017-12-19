@@ -23,7 +23,7 @@ char transpose_submit_desc[] = "Transpose submission";
 void transpose_submit(int M, int N, int A[N][M], int B[M][N]) 
 {
     int Bsize; //Size of block
-    int rowBlock, colBlock; //used to iterate over columns and rows of block
+    int row_block, col_block; //used to iterate over columns and rows of block
     int r, c; // used to iterate through each block in inner loops
     int temp = 0, d = 0; //d stands for diagonal, temp is for temporary variable
     // int v0,v1,v2,v3,v4; //Variables to be used in the N==64 case for various assignments within it
@@ -36,13 +36,13 @@ void transpose_submit(int M, int N, int A[N][M], int B[M][N])
         /*
     2 outer loops iterates accross blocks / 2 inner loops iterate through each block. 
     */
-        for(colBlock = 0; colBlock < N; colBlock += 8)
+        for(col_block = 0; col_block < N; col_block += Bsize)
         {
-            for(rowBlock = 0; rowBlock < N; rowBlock += 8)
+            for(row_block = 0; row_block < N; row_block += Bsize)
             {
-                for(r = rowBlock; r < rowBlock + 8; r++)
+                for(r = row_block; r < row_block + Bsize; r++)
                 {
-                    for(c = colBlock; c < colBlock + 8; c++)
+                    for(c = col_block; c < col_block + Bsize; c++)
                     {
                         //When row and collumn is not equal then we can change the value in B to the desired value in A
                         if(r != c)
@@ -58,7 +58,7 @@ void transpose_submit(int M, int N, int A[N][M], int B[M][N])
                         }
                     }
                     // Each traverse only has 1 element in the diagonal line. So we will assign it here, outside of the loop.
-                    if (rowBlock == colBlock)	
+                    if (row_block == col_block)	
                     {
                         B[d][d] = temp;
                     }
@@ -82,14 +82,14 @@ void transpose_submit(int M, int N, int A[N][M], int B[M][N])
     {
         Bsize = 16;
         
-        for (colBlock = 0; colBlock < M; colBlock += Bsize)
+        for (col_block = 0; col_block < M; col_block += Bsize)
         {
-            for (rowBlock = 0; rowBlock < N; rowBlock += Bsize)
+            for (row_block = 0; row_block < N; row_block += Bsize)
             {	
-                /*not all blocks will be square, so (rowBlock + 16 > N) may get an invalid access. Therefore we need to regularly check for r<N and c<M */
-                for(r = rowBlock; (r < N) && (r < rowBlock + Bsize); r++)
+                /*not all blocks will be square, so (row_block + 16 > N) may get an invalid access. Therefore we need to regularly check for r<N and c<M */
+                for(r = row_block; (r < N) && (r < row_block + Bsize); r++)
                 {
-                    for(c = colBlock; (c < M) && (c < colBlock + Bsize); c++)
+                    for(c = col_block; (c < M) && (c < col_block + Bsize); c++)
                     {
                         //row and column are not same
                         if (r != c)
@@ -106,7 +106,7 @@ void transpose_submit(int M, int N, int A[N][M], int B[M][N])
                     }
                     
                     //Diagonal
-                    if(rowBlock == colBlock) 
+                    if(row_block == col_block) 
                     {
                         B[d][d] = temp;
                     }
