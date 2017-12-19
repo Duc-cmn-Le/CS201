@@ -20,7 +20,7 @@ struct cacheParameter {
 struct setLine {
     int latestUsed;
     int valid;
-    long long int tag;
+    unsigned long long int tag;
     char *block;
 };
 
@@ -100,16 +100,16 @@ int detectEvictLine(struct cacheSet exampleSet, struct cacheParameter examplePar
     return minFreqUsage_index;
 }
 
-struct cacheParameter accessTheCacheData(struct cache myCache, struct cacheParameter exampleParameter, long long int address) {
+struct cacheParameter accessTheCacheData(struct cache myCache, struct cacheParameter exampleParameter, unsigned long long int address) {
     int checkFullCache = 1;
 
     int numberOfLines = exampleParameter.E;
     int previousHit = exampleParameter.hits;
 
     int tagSize = (64 - exampleParameter.s - exampleParameter.b);
-    long long int inputTag = address >> (exampleParameter.s + exampleParameter.b);
-    long long int temp = address << tagSize;
-    long long int indexOfSet = temp >> (tagSize + exampleParameter.b);
+    unsigned long long int inputTag = address >> (exampleParameter.s + exampleParameter.b);
+    unsigned long long int temp = address << tagSize;
+    unsigned long long int indexOfSet = temp >> (tagSize + exampleParameter.b);
 
     struct cacheSet exampleSet = myCache.sets[indexOfSet];
     
