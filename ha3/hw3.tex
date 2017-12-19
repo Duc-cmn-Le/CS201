@@ -1,0 +1,142 @@
+\documentclass[a4paper,12pt]{article}
+
+\usepackage{listings}
+\usepackage{color}
+\usepackage[unicode]{hyperref}
+\usepackage[]{algorithm2e}
+\usepackage{setspace}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{enumitem}
+\onehalfspacing
+\newcommand{\cmmnt}[1]{}
+
+\lstdefinelanguage{C}
+  {morekeywords={@catch,@class,@encode,@end,@finally,@implementation,%
+      @interface,@private,@protected,@protocol,@public,@selector,%
+      @synchronized,@throw,@try,BOOL,Class,IMP,NO,Nil,SEL,YES,_cmd,%
+      bycopy,byref,id,in,inout,nil,oneway,out,self,super,%
+      @dynamic,@package,@property,@synthesize,readwrite,readonly,%
+      assign,retain,copy,nonatomic%
+      },%
+}%
+\lstset{language = C, keywordstyle=\color{blue}\ttfamily, commentstyle= \color{gray}}
+
+
+\lstdefinelanguage
+   [x64]{Assembler}     % add a "x64" dialect of Assembler
+   [x86masm]{Assembler} % based on the "x86masm" dialect
+   % with these extra keywords:
+   {morekeywords={CDQE,CQO,CMPSQ,CMPXCHG16B,JRCXZ,
+   LODSQ,MOVSXD,%
+                  POPFQ,PUSHFQ,SCASQ,STOSQ,IRETQ,RDTSCP,SWAPGS, %
+                  nop,movq,pushq,popq,cmpq,testq,leaq,
+                  cmovq,jmp,je,jne,addq,xorq,sall,
+                  andl,movl,salq,movslq,retq, %                  
+                  rax,rdx,rcx,rbx,rsi,rdi,rsp,rbp, %
+                  r8,r8d,r8w,r8b,r9,r9d,r9w,r9b}} % etc.
+
+\lstset{language=[x64]Assembler, keywordstyle=\color{blue}\ttfamily,commentstyle= \color{gray}}
+
+
+
+\begin{document}
+
+\author{Le Duong Cong Duc \\ Student ID: 1651044}%chage your name and ID
+\title{CS201\\Homework 03}
+\maketitle
+
+\pagenumbering{roman}
+
+\setcounter{page}{1}
+\tableofcontents
+\pagenumbering{arabic}
+
+\clearpage
+
+% Start your report here
+
+\section{Exercises 1}
+
+Consider the following source code, where R, S, and T are constants declared with $\#define$:
+\lstinputlisting[language = C]{SourceCode/ex1.c}
+
+Assembly code:
+\lstinputlisting[language = {[x64]Assembler}]{SourceCode/ex1.asm}
+
+Determine the values of R, S, and T.\\[0.3cm]
+
+Answer: % just write down the value of R, T, S
+\begin{enumerate}
+\item R = 7
+\item S = 5
+\item T = 13
+\end{enumerate}
+
+\section{Exercises 2}
+The code that follows shows an example of branching on an enumerated type value in a switch statement. Recall that enumerated types in C are simply a way to introduce a set of names having associated integer values. By default, the values assigned to  the names count from zero upward. In our code, the action associated with the different case labels have been omitted.
+
+\lstinputlisting[language=C]{SourceCode/ex2.c}
+
+The part of the generated assembly code implementing the different actions is shown as the code below. The annotations indicate the argument locations, the register values, and the case labels for the different jump destinations.
+
+\lstinputlisting{SourceCode/ex2.asm}
+
+Fill in the missing parts of the C code. It contained one case that fell through to another--try to reconstruct this.
+
+\section{Exercises 3}
+Consider the following source code, where NR and NC are macro expressions declared with $\#define$ that compute the dimensions of array A in terms of parameter $n$. This code computes the sum of the elements of column $j$ of the array.
+\lstinputlisting[language = C]{SourceCode/ex3.c}
+
+Assembly code for the body of setVal:
+\lstinputlisting[language = {[x64]Assembler}]{SourceCode/ex3.asm} 
+
+Determine the definition of NR and NC.\\[0.3cm]
+
+Answer: % just write down the value of NR and NC
+\begin{enumerate}
+\item NR = 3n
+\item NC = 4n + 1
+\end{enumerate}
+
+
+\section{Exercises 4}
+For each of the following structure declarations, determine the offset of each field, the total size of the structure, and its alignment requirement for x86-64•. 
+
+\begin{enumerate}[before=\ttfamily]
+\item struct P1 \{ int i; char c; int j ; char d; \} ;
+\item struct P2 \{ int w[2]; char c[3]; long j[2];  \} ;
+\item struct P3 \{ short *w[3]; char c[3]; \} ;
+\item struct P4 \{ struct P1 a[2]; char c[5]; struct P2 t;\} ;\\[0.3cm]
+\end{enumerate}
+
+Answer: %replace ? with your answer 
+\begin{enumerate}[before=\ttfamily]
+%P1
+\item 
+\begin{tabular}{c|cccccc}
+P1&i&c&j&d&Total&Alignment\\\hline
+\cmmnt{4P1} & 0 & 4 & 8 & 12 & 16 & 4
+\end{tabular}
+%P2
+\item 
+\begin{tabular}{c|ccccc}
+P2&w&c&j&Total&Alignment\\\hline
+\cmmnt{4P2} & 0 & 8 & 16 & 32 & 8
+\end{tabular}
+%P3
+\item 
+\begin{tabular}{c|ccccc}
+P3&w&c&Total&Alignment\\\hline
+\cmmnt{4P3} & 0 & 24 & 32 & 8
+\end{tabular}
+%P4
+\item 
+\begin{tabular}{c|ccccc}
+P4&a&c&t&Total&Alignment\\\hline
+\cmmnt{4P4} & 0 & 32 & 40 & 72 & 8
+\end{tabular}
+\end{enumerate}
+
+\clearpage
+
+\end{document}\grid

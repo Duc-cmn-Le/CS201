@@ -1,0 +1,210 @@
+\documentclass[a4paper]{article}
+
+\newcommand{\cmmnt}[1]{}
+\usepackage{listings}
+\usepackage[usenames,dvipsnames]{xcolor}
+\lstdefinelanguage{C}
+  {morekeywords={@catch,@class,@encode,@end,@finally,@implementation,%
+      @interface,@private,@protected,@protocol,@public,@selector,%
+      @synchronized,@throw,@try,BOOL,Class,IMP,NO,Nil,SEL,YES,_cmd,%
+      bycopy,byref,id,in,inout,nil,oneway,out,self,super,%
+      % The next two lines are Objective-C 2 keywords.
+      @dynamic,@package,@property,@synthesize,readwrite,readonly,%
+      assign,retain,copy,nonatomic%
+      },%
+}%
+\lstset{language=C, keywordstyle=\color{blue}, commentstyle= \color{black}}
+
+\begin{document}
+
+% TODO: put your information here
+\author{Le Duong Cong Duc \\ Student ID: 1651044} % change this
+\title{CS201\\Homework 01}
+\maketitle
+
+\pagenumbering{roman}
+
+\setcounter{page}{1}
+\tableofcontents
+\pagenumbering{arabic}
+
+\clearpage
+
+% Start your report here
+
+\section{Exercises 1}
+Write a C expression that will yield a word consisting of the least significant byte of x and the remaining bytes of y.
+
+For operands \texttt{x = 0x89ABCDEF} and \texttt{y = 0x76543210}, this would give \texttt{0x765432EF}.\\[1pt]
+
+Answer: %Write your answer in ex1.c
+\lstinputlisting[language=C]{SourceCode/ex1.c}
+
+\section{Exercises 2}
+Write code for a function with the following prototype:\\[1pt]
+
+Answer: %Write your answer in ex2.c
+\lstinputlisting[language=C]{SourceCode/ex2.c}
+
+\section{Exercises 3}
+Assume that your student ID is a 32-bit integer number. Write the bit sequence of that number in binary. With the same sequence, what is the value (in decimal) if we interpret it as a a) sign-magnitude, b) two's complement?, c) Single precision float
+
+~\newline
+
+Answer: %Replace ? by your answer
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+3A & Student ID & 1651044 \\
+\hline
+3B & Binary & 0000 0000 0001 1001 0011 0001 0110 0100 \\
+\hline
+3C & Sign-and-magnitude & 1651044 \\
+\hline
+3D & Two's complement & 1651044 \\
+\hline
+3E & Single precision float & $412761*2^{-147}$\\
+\hline
+
+\end{tabular}
+\caption{Different interpretation}
+\end{center}
+\end{table}
+
+\section{Exercises 4}
+We are running programs on a machine where values of type \texttt{int} are 32 bits. They are represented in two's complement, and they are right shifted arithmetically. Values of type \texttt{unsigned} are also 32 bits. 
+
+We generate arbitrary values x and y, and convert them to unsigned values as follows:
+
+\begin{verbatim}
+/* Create some arbitrary values */
+int x = random();
+int y = random();
+/* Convert to unsigned */
+unsigned ux = (unsigned) x;
+unsigned uy = (unsigned) y;
+\end{verbatim}
+
+For each of the following C expressions, you are to indicate whether or not the expression always yields 1.
+
+\begin{verbatim}
+A. (x<y) == (-x>-y)
+B. ((x+y)<<4) + y-x == 17*y+15*x
+C. ~x+~y+1 == ~(x+y)
+D. (ux-uy) == -(unsigned)(y-x)
+E. ((x >> 2) << 2) <= x
+\end{verbatim}
+
+%\clearpage
+Answer: %Replace ? with your answer (only Yes/No are accepted)
+
+\begin{table}[ht]
+\begin{tabular}{|c|c|}
+\hline
+C expressions&Yes/No\\
+\hline
+4A & No \\
+\hline
+4B & Yes \\
+\hline
+4C & Yes \\
+\hline
+4D & No \\
+\hline
+4E & Yes \\
+\hline
+\end{tabular}
+\end{table}
+
+\section{Exercises 5}
+We are running programs on a machine where values of type int have a 32-bit two's-complement representation. Values of type \texttt{float} use the 32-bit IEEE format, and values of type \texttt{double} use the 64-bit IEEE format.
+
+We generate arbitrary integer values x, y, and z, and convert them to values of type \texttt{double} as follows:
+
+\begin{verbatim}
+/* Create some arbitrary values */
+int x = random();
+int y = random();
+int z = random();
+/* Convert to double */
+double dx = (double) x;
+double dy = (double) y;
+double dz = (double) z;
+\end{verbatim}
+
+For each of the following C expressions, you are to indicate whether or not the expression always yields 1. Note that you cannot use an IA32 machine running gcc to test your answers, since it would use the 80-bit extended-precision representation for both \texttt{float} and \texttt{double}.
+
+\begin{verbatim}
+A. (float) x == (float) dx
+B. dx - dy == (double) (x-y)
+C. (dx + dy) + dz == dx + (dy + dz)
+D. (dx * dy) * dz == dx * (dy * dz)
+E. dx / dx == dz / dz
+\end{verbatim}
+
+Answer: %Replace ? with your answer (only Yes/No are accepted)
+
+\begin{table}[ht]
+\begin{tabular}{|c|c|}
+\hline
+C expressions&Yes/No\\
+\hline
+5A & Yes \\
+\hline
+5B & No \\
+\hline
+5C & Yes \\
+\hline
+5D & No \\
+\hline
+5E & No \\
+\hline
+\end{tabular}
+\end{table}
+
+\section{Exercises 6}
+Consider a 16-bit floating-point representation based on the IEEE floating-point format, with 1 sign bit, 5 exponent bits (k = 5), and 10 fraction bits (n = 10). The exponent bias is $2^{5-1} - 1= 15$.
+
+Fill in the table that follows for each of the numbers given, with the following instructions for each column:
+\begin{itemize}
+\item \textit{Hex}: The four hexadecimal digits describing the encoded form.
+\item \textit{M}: The value of the significand. This should be a number of the form $x$ or $\frac{x}{y}$ , where $x$ is an integer, and $y$ is an integral power of 2. Examples include: 0, $\frac{67}{64}$, and $\frac{1}{256}$ .
+\item \textit{E}: The integer value of the exponent.
+\item \textit{V} : The numeric value represented. Use the notation $x$ or
+$x$ x $2^z$, where $x$ and $z$ are integers.
+\end{itemize}
+
+\begin{table}[h]
+\begin{tabular}{lcccc}
+Description &Hex &M &E &V\\\hline
+--0&8000
+\cmmnt{6A} & 0 %Replace \ldots with your answer,
+& $-14$
+&-0\\
+Smallest value $>$ 2&4001 
+& $\frac{1025}{1024}$
+\cmmnt{6B} & 1 %Replace \ldots with your answer
+& $1025*2^{-9}$
+\\ 
+512&6000
+\cmmnt{6C} & 1   %Replace \ldots with your answer
+\cmmnt{6D} & 9 %Replace \ldots with your answer
+& 512
+\\
+Largest denormalized&03FF
+\cmmnt{6E} & $\frac{1023}{1024}$ %Replace \ldots with your answer
+\cmmnt{6F} & -14  %Replace \ldots with your answer
+\cmmnt{6G} & $1023*2^{-24}$ %Replace \ldots with your answer
+\\
+Number with hex representation \texttt{3BB0}&3BB0
+\cmmnt{6H} & $\frac{123}{64}$ %Replace \ldots with your answer
+\cmmnt{6I} & -1  %Replace \ldots with your answer
+\cmmnt{6J} & $123*2^{-7}$ %Replace \ldots with your answer
+\\
+\end{tabular}
+\end{table}
+
+\clearpage
+\end{document}

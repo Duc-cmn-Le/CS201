@@ -1,0 +1,13 @@
+transform:
+	movl	$0, %eax
+	jmp	.L2
+.L4:
+	testb	$1, %dil
+	je	.L3
+	leal	1(%rax,%rax), %eax
+.L3:
+	shrl	%edi
+.L2:
+	testl	%edi, %edi
+	jne	.L4
+	rep ret

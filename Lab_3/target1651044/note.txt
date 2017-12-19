@@ -1,0 +1,3 @@
+Nhap chuoi 24 byte
+
+cat ctarget.l1 | ./hex2raw | ./ctarget -q

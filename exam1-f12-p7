@@ -1,0 +1,33 @@
+main:
+	cmpl	$7, %edi
+	ja	.L2
+	movl	%edi, %edi
+	jmp	*.L4(,%rdi,8)
+	.section	.rodata
+	.align 8
+	.align 4
+.L4:
+	.quad	.L3
+	.quad	.L3
+	.quad	.L5
+	.quad	.L9
+	.quad	.L2
+	.quad	.L10
+	.quad	.L2
+	.quad	.L6
+	.text
+.L3:
+	subl	$5, %edx
+.L5:
+	leal	0(,%rdx,4), %eax
+	ret
+.L9:
+	movl	$2, %edx
+.L6:
+	andl	%edx, %esi
+.L2:
+	leal	4(%rsi), %eax
+	ret
+.L10:
+	movl	$86547, %eax
+	ret

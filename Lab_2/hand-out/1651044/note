@@ -1,0 +1,11 @@
+gdb bomb
+
+disass main
+
+break phase_1 : set breakpoint
+info break
+del 1
+
+x/s 0x402370
+
+
