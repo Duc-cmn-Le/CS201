@@ -71,7 +71,7 @@ int detectEmptyLine(struct cacheSet exampleSet, struct cacheParameter examplePar
     int numberOfLines = exampleParameter.E;
     struct setLine line;
 
-    for (int indexOfLine = 0; index < numberOfLines; index++) {
+    for (int indexOfLine = 0; indexOfLine < numberOfLines; indexOfLine++) {
         line = exampleSet.lines[indexOfLine];
         if (!line.valid)
             return indexOfLine;
